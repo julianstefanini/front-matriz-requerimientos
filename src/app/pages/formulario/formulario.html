@@ -1,0 +1,591 @@
+<form [formGroup]="formulario" (submit)="capturaDatos()">
+  <mat-grid-list cols="4" rowHeight="50px" class="container-form">
+    <!--Primeras dos filas-->
+    @for (propiedad of propiedades; track propiedad; let i = $index) {
+    <mat-grid-tile
+      [colspan]="propiedad.columnas"
+      [rowspan]="propiedad.filas"
+      [style.background]="propiedad.color"
+      >{{ propiedad.texto }}</mat-grid-tile
+    >
+    }
+
+    <!--Tercera fila-->
+    <mat-grid-tile [colspan]="col1" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%">
+        <mat-label>Fecha de solicitud</mat-label>
+        <input formControlName="fechaSolicitud" matInput [matDatepicker]="picker" />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col1" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%" hintLabel="Máximo 60 caracteres">
+        <mat-label>Nombre y Apellidos</mat-label>
+        <input
+          formControlName="nombresApellidos"
+          matInput
+          maxlength="60"
+          placeholder=""
+          (input)="onInputNombres($event)"
+          (blur)="updateErrorNombresApellidos()"
+        />
+        @if (formulario.get('nombresApellidos')?.invalid) {
+        <mat-error>{{ nombresApellidosError() }}</mat-error>
+        }
+        <mat-hint align="end">{{ valorNombres().length }}/60</mat-hint>
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col1" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%" hintLabel="Máximo 60 caracteres">
+        <mat-label>Cargo</mat-label>
+        <input
+          formControlName="cargo"
+          matInput
+          maxlength="60"
+          placeholder=""
+          (input)="onInputCargo($event)"
+          (blur)="updateErrorCargo()"
+        />
+        @if (formulario.get('cargo')?.invalid) {
+        <mat-error>{{ cargoError() }}</mat-error>
+        }
+        <mat-hint align="end">{{ valorCargo().length }}/60</mat-hint>
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col1" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%" hintLabel="Máximo 60 caracteres">
+        <mat-label>Correo electrónico</mat-label>
+        <input
+          formControlName="correo"
+          matInput
+          maxlength="60"
+          (input)="onInputCorreo($event)"
+          (blur)="updateErrorCorreo()"
+        />
+        <mat-hint align="end">{{ valorCorreo().length }}/60</mat-hint>
+        @if (formulario.get('correo')?.invalid) {
+        <mat-error>{{ correoError() }}</mat-error>
+        }
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <!--Cuarta fila-->
+    <mat-grid-tile [colspan]="col2" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%">
+        <mat-label>Vicepresidencia-Gerencia</mat-label>
+        <input
+          formControlName="vicepresidencia"
+          matInput
+          maxlength="60"
+          placeholder=""
+          (input)="onInputVicepresidencia($event)"
+          (blur)="updateErrorVicepresidencia()"
+        />
+        <mat-hint align="end">{{ valorVicepresidencia().length }}/60</mat-hint>
+        @if(formulario.get('vicepresidencia')?.invalid){
+        <mat-error>{{ vicepresidenciaError() }}</mat-error>
+        }
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col2" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%">
+        <mat-label>Nombre del Proceso o Subproceso</mat-label>
+        <input
+          formControlName="nombreProceso"
+          matInput
+          maxlength="60"
+          placeholder=""
+          (input)="onInputProceso($event)"
+          (blur)="updateErrorProceso()"
+        />
+        <mat-hint align="end">{{ valorProceso().length }}/60</mat-hint>
+        @if(formulario.get('nombreProceso')?.invalid){
+        <mat-error>{{ procesoError() }}</mat-error>
+        }
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <!--Quinta fila-->
+    <mat-grid-tile [colspan]="col2" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%" hintLabel="Máximo 60 caracteres">
+        <mat-label>Nombre Persona delegada para gestionar la iniciativa</mat-label>
+        <input
+          formControlName="personaDelegada"
+          matInput
+          maxlength="60"
+          placeholder=""
+          (input)="onInputPersonaDelegada($event)"
+          (blur)="updateErrorPersonaDelegada()"
+        />
+        <mat-hint align="end">{{ valorPersonaDelegada().length }}/60</mat-hint>
+        @if (formulario.get('personaDelegada')?.invalid) {
+        <mat-error>{{ personaDelegadaError() }}</mat-error>
+        }
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col1" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%" hintLabel="Máximo 60 caracteres">
+        <mat-label>Cargo</mat-label>
+        <input
+          formControlName="cargoPersonaDelegada"
+          matInput
+          maxlength="60"
+          placeholder=""
+          (input)="onInputCargoPersonaDelegada($event)"
+          (blur)="updateErrorCargoPersonaDelegada()"
+        />
+        <mat-hint align="end">{{ valorCargoPersonaDelegada().length }}/60</mat-hint>
+        @if(formulario.get('cargoPersonaDelegada')?.invalid){
+        <mat-error>{{ cargoPersonaDelegadaError() }}</mat-error>
+        }
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col1" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%" hintLabel="Máximo 60 caracteres">
+        <mat-label>Correo electrónico</mat-label>
+        <input
+          formControlName="correoPersonaDelegada"
+          matInput
+          maxlength="60"
+          placeholder=""
+          (input)="onInputCorreoPersonaDelegada($event)"
+          (blur)="updateErrorCorreoPersonDelegada()"
+        />
+        <mat-hint align="end">{{ valorCorreoPersonaDelegada().length }}/60</mat-hint>
+        @if(formulario.get('correoPersonaDelegada')?.invalid){
+        <mat-error>{{ correoPersonaDelegadaError() }}</mat-error>
+        }
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <!--Sexta fila-->
+    <mat-grid-tile [colspan]="col2" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%" hintLabel="Máximo 60 caracteres">
+        <mat-label>Gestor de Procesos</mat-label>
+        <input
+          formControlName="gestorProcesos"
+          matInput
+          maxlength="60"
+          placeholder=""
+          (input)="onInputValorGestorProcesos($event)"
+          (blur)="updateErrorGestorProcesos()"
+        />
+        <mat-hint align="end">{{ valorGestorProcesos().length }}/60</mat-hint>
+        @if(formulario.get('gestorProcesos')?.invalid){
+        <mat-error>{{ gestorProcesosError() }}</mat-error>
+        }
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col2" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%" hintLabel="Máximo 60 caracteres">
+        <mat-label>Correo electrónico</mat-label>
+        <input
+          formControlName="correoGestor"
+          matInput
+          maxlength="60"
+          placeholder=""
+          (input)="onInputValorGestorCorreo($event)"
+          (blur)="updateErrorCorreoGestor()"
+        />
+        <mat-hint align="end">{{ valorGestorCorreo().length }}/60</mat-hint>
+        @if(formulario.get('correoPersonaDelegada')?.invalid){
+        <mat-error>{{ correoGestorError() }}</mat-error>
+        }
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <!--Septima fila-->
+    <mat-grid-tile
+      [colspan]="propiedadadSeptimaFila.at(0)?.columnas"
+      [rowspan]="propiedadadSeptimaFila.at(0)?.filas"
+      [style.background]="propiedadadSeptimaFila.at(0)?.color"
+      >{{ propiedadadSeptimaFila.at(0)?.texto }}</mat-grid-tile
+    >
+
+    <!--Octava fila-->
+    <mat-grid-tile [colspan]="col2" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%">
+        <mat-label>Origen</mat-label>
+        <mat-select
+          formControlName="origen"
+          (blur)="updateErrorOrigen()"
+          (selectionChange)="habilitarCamposOrigen($event.value)"
+        >
+          <mat-option style="background-color: #ffffff" value="operación normal"
+            >Operación Normal</mat-option
+          >
+          <mat-option style="background-color: #ffffff" value="regulatorios"
+            >Regulatorios</mat-option
+          >
+          <mat-option style="background-color: #ffffff" value="proyectos">Proyectos</mat-option>
+        </mat-select>
+        @if (formulario.get('origen')?.invalid) {
+        <mat-error>{{ origenError() }}</mat-error>
+        }
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col1" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%" hintLabel="Máximo 15 caracteres">
+        <mat-label>Norma</mat-label>
+        <input
+          formControlName="norma"
+          matInput
+          maxlength="15"
+          placeholder=""
+          (input)="onInputNorma($event)"
+          (blur)="updateErrorNorma()"
+        />
+        <mat-hint align="end">{{ valorNorma().length }}/15</mat-hint>
+        @if(formulario.get('norma')?.invalid){
+        <mat-error>{{ normaError() }}</mat-error>
+        }
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col1" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%">
+        <mat-label>Entidad</mat-label>
+        <mat-select formControlName="entidad" (blur)="updateErrorEntidad()">
+          <mat-option style="background-color: #ffffff" value="entidad1">Entidad1</mat-option>
+          <mat-option style="background-color: #ffffff" value="entidad2">Entidad2</mat-option>
+          <mat-option style="background-color: #ffffff" value="entidad3">Entidad3</mat-option>
+          <mat-option style="background-color: #ffffff" value="entidad4">Entidad4</mat-option>
+        </mat-select>
+        @if(formulario.get('entidad')?.invalid){
+        <mat-error>{{ entidadError() }}</mat-error>
+        }
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <!--Novena fila-->
+    <mat-grid-tile [colspan]="col2" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%">
+        <mat-label>Proyecto</mat-label>
+        <mat-select formControlName="proyecto" (blur)="updateErrorProyecto()">
+          <mat-option style="background-color: #ffffff" value="proyecto1">Proyecto1</mat-option>
+          <mat-option style="background-color: #ffffff" value="proyecto2">Proyecto2</mat-option>
+          <mat-option style="background-color: #ffffff" value="proyecto3">Proyecto3</mat-option>
+          <mat-option style="background-color: #ffffff" value="proyecto4">Proyecto4</mat-option>
+        </mat-select>
+        @if(formulario.get('proyecto')?.invalid){
+        <mat-error>{{ proyectoError() }}</mat-error>
+        }
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col2" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%">
+        <mat-label>Si es regulatorio ingresar fecha de implementación</mat-label>
+        <input
+          formControlName="fechaImplementacion"
+          matInput
+          [matDatepicker]="picker2"
+          (blur)="updateErrorFechaImplementacion()"
+        />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        @if(formulario.get('fechaImplementacion')?.invalid){
+        <mat-error>{{ fechaImplementacionError() }}</mat-error>
+        }
+        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <!--Decima fila-->
+    <mat-grid-tile [colspan]="col4" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%" hintLabel="Máximo 1500 caracteres">
+        <mat-label>Necesidad a resolver</mat-label>
+        <textarea
+          formControlName="necesidad"
+          matInput
+          maxlength="1500"
+          placeholder=""
+          (input)="onInputNecesidadResolver($event)"
+          (blur)="updateErrorNecesidad()"
+        ></textarea>
+        <mat-hint align="end">{{ valorNecesidadResolver().length }}/1500</mat-hint>
+        @if(formulario.get('necesidad')?.invalid){
+        <mat-error>{{ necesidadError() }}</mat-error>
+        }
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <!--Onceava fila-->
+    <mat-grid-tile
+      [colspan]="propiedadDecimaFila.at(0)?.columnas"
+      [rowspan]="propiedadDecimaFila.at(0)?.filas"
+      [style.background]="propiedadDecimaFila.at(0)?.color"
+      >{{ propiedadDecimaFila.at(0)?.texto }}</mat-grid-tile
+    >
+
+    <mat-grid-tile [colspan]="colChecksPlan" [rowspan]="2" class="field-text">
+        @for (propiedadCheck of propiedadesCheckBox; track propiedadCheck;) {
+      <mat-checkbox
+        [value]="propiedadCheck.nombre"
+        [checked]="propiedadCheck.activo"
+        (change)="checksPlanEstrategico($event)"
+        (blur)="(updateErrorPlanEstrategicoChecks())"
+        >{{ propiedadCheck.nombre }}</mat-checkbox
+      >
+      }
+      @if(formulario.get('planEstrategicoChecks')?.touched && formulario.get('planEstrategicoChecks')?.invalid){
+        <mat-error>{{planEstrategicoChecksError()}}</mat-error>
+      }
+      </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="colComoApoya" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%" hintLabel="Máximo 500 caracteres">
+        <mat-label>Explique cómo apoya el objetivo</mat-label>
+        <textarea
+          formControlName="comoApoyaElObjetivo"
+          matInput
+          maxlength="500"
+          placeholder=""
+          (input)="onInputTextoObejtivo($event)"
+          (blur)="updateErrorComoApoyaElObjetivo()"
+        ></textarea>
+        <mat-hint align="end">{{ valorTextoObjetivo().length }}/500</mat-hint>
+        @if(formulario.get('comoApoyaElObjetivo')?.invalid){
+        <mat-error>{{ comoApoyaElObjetivoError() }}</mat-error>
+        }
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <!--treceava fila-->
+
+    <mat-grid-tile [colspan]="col4" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%" hintLabel="Máximo 500 caracteres">
+        <mat-label>Qué quiero (Explique su idea sobre la necesidad planteada)</mat-label>
+        <textarea
+          formControlName="que"
+          matInput
+          maxlength="500"
+          placeholder=""
+          (input)="onInputQueQuieroTexto($event)"
+          (blur)="updateErrorQue()"
+        ></textarea>
+        <mat-hint align="end">{{ valorQueQuieroTexto().length }}/500</mat-hint>
+        @if(formulario.get('que')?.invalid){
+        <mat-error>{{ queError() }}</mat-error>
+        }
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <!--catorceava fila-->
+    <mat-grid-tile [colspan]="col4" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%" hintLabel="Máximo 500 caracteres">
+        <mat-label>Para qué (qué se lograría con la mejora a nivel cuantitativo)</mat-label>
+        <textarea
+          formControlName="paraQue"
+          matInput
+          maxlength="500"
+          placeholder=""
+          (input)="onInputParaQueTexto($event)"
+          (blur)="updateErrorParaQue()"
+        ></textarea>
+        <mat-hint align="end">{{ valorParaQueTexto().length }}/500</mat-hint>
+        @if(formulario.get('paraQue')?.invalid){
+        <mat-error>{{ paraQueError() }}</mat-error>
+        }
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <!--quinceava fila-->
+    <mat-grid-tile
+      [colspan]="propiedadesCatorceavaFila.at(0)?.columnas"
+      [rowspan]="propiedadesCatorceavaFila.at(0)?.filas"
+      [style.background]="propiedadesCatorceavaFila.at(0)?.color"
+      >{{ propiedadesCatorceavaFila.at(0)?.texto }}
+    </mat-grid-tile>
+
+    <!--Deciseisava fila-->
+    <mat-grid-tile [colspan]="col2" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%; height: 100%">
+        <mat-label>Beneficio económico</mat-label>
+        <input
+          formControlName="descripcionBeneficio"
+          matInput
+          type="number"
+          (input)="onInputDescricionBeneficio($event)"
+          (blur)="updateErrorDescripcionBeneficio()"
+        />
+        @if(formulario.get('descripcionBeneficio')?.invalid){
+        <mat-error>{{ descripcionBeneficioError() }}</mat-error>
+        }
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col1" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%" class="align-inputs">
+        <mat-label>Alineado a Innovación</mat-label>
+        <mat-select
+          class="alinear-select-areas_involucradas"
+          formControlName="alineacion"
+          (blur)="updateErrorAlineacion()"
+        >
+          <mat-option style="background-color: #ffffff" value="si">Si</mat-option>
+          <mat-option style="background-color: #ffffff" value="no">No</mat-option>
+        </mat-select>
+        @if(formulario.get('alineacion')?.invalid){
+        <mat-error>{{ alineacionError() }}</mat-error>
+        }
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col1" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%" class="align-inputs">
+        <mat-label>Cantidad aplicaciones afectadas</mat-label>
+        <mat-select
+          class="alinear-select-areas_involucradas"
+          formControlName="cantidadAplicaciones"
+          (blur)="updateErrorCantidadAplicaciones()"
+          multiple
+        >
+          <mat-select-trigger>
+            {{ formulario.get('cantidadAplicaciones')?.value[0] || '' }}
+            @if ((formulario.get('cantidadAplicaciones')?.value.length || 0) > 1) {
+            <span class="example-additional-selection">
+              (+{{ (formulario.get('cantidadAplicaciones')?.value.length || 0) - 1 }}
+              {{ formulario.get('cantidadAplicaciones')?.value.length === 2 ? 'other' : 'others' }})
+            </span>
+            }
+          </mat-select-trigger>
+          @for (item of cantidadAplicacionesLista; track item) {
+          <mat-option [value]="item">{{ item }}</mat-option>
+          }
+        </mat-select>
+        @if(formulario.get('cantidadAplicaciones')?.invalid){
+        <mat-error>{{ cantidadAplicacionesError() }}</mat-error>
+        }
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <!--Diecisieteava fila-->
+    <mat-grid-tile [colspan]="col1" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%" class="align-inputs">
+        <mat-label>Mejora la Experiencia al Cliente</mat-label>
+        <mat-select
+          class="alinear-select-areas_involucradas"
+          formControlName="mejoraExperiencia"
+          (blur)="updateErrorMejoraExperiencia()"
+          (selectionChange)="habilitarCampoComo($event.value)"
+        >
+          <mat-option style="background-color: #ffffff" value="si">Si</mat-option>
+          <mat-option style="background-color: #ffffff" value="no">No</mat-option>
+        </mat-select>
+        @if(formulario.get('mejoraExperiencia')?.invalid){
+        <mat-error>{{ mejoraExperienciaError() }}</mat-error>
+        }
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col3" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%" hintLabel="Máximo 500 caracteres" class="align-inputs">
+        <mat-label>Cómo</mat-label>
+        <textarea
+          formControlName="comoExperiencia"
+          matInput
+          maxlength="500"
+          placeholder=""
+          (input)="onInputComoMejora($event)"
+          (blur)="updateErrorComoExperiencia()"
+        ></textarea>
+        <mat-hint align="end">{{ valorComoMejora().length }}/500</mat-hint>
+        @if(formulario.get('comoExperiencia')?.invalid){
+        <mat-error>{{ comoExperienciaError() }}</mat-error>
+        }
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <!--Diecioachoava fila-->
+    <mat-grid-tile
+      [colspan]="propiedadesDieciSeisavaFila.at(0)?.columnas"
+      [rowspan]="propiedadesDieciSeisavaFila.at(0)?.filas"
+      [style.background]="propiedadesDieciSeisavaFila.at(0)?.color"
+      >{{ propiedadesDieciSeisavaFila.at(0)?.texto }}
+    </mat-grid-tile>
+
+    <!--Diecinueveava fila-->
+    <mat-grid-tile [colspan]="col4" [rowspan]="2" class="field-text">
+      <!-- Botones -->
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          position: sticky;
+          top: 0;
+          background-color: white;
+          z-index: 10;
+          padding: 8px 0;
+        "
+      >
+        <button type="button" (click)="addInput()" mat-fab style="width: 40px; height: 40px">
+          <mat-icon>add</mat-icon>
+        </button>
+
+        <button type="button" (click)="removeInput()" mat-fab style="width: 40px; height: 40px">
+          <mat-icon>remove</mat-icon>
+        </button>
+      </div>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col4" [rowspan]="2" class="field-text">
+      <section style="display: flex; flex-direction: column; height: 100%; width: 100%">
+        <!-- Contenedor scrollable -->
+        <div
+          formArrayName="areasInvolucradas"
+          style="
+            flex: 1;
+            max-height: 300px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            padding-right: 8px; /* mantiene espacio visual del scroll */
+          "
+          class="scroll-container"
+        >
+          <mat-form-field
+            *ngFor="let item of areasInvolucradas.controls; let i = index; trackBy: trackByIndex"
+            style="width: 100%"
+            appearance="outline"
+            hintLabel="Máximo 500 caracteres"
+          >
+            <input
+              matInput
+              maxlength="200"
+              [placeholder]="'Escriba área involucrada N° ' + (i + 1)"
+              [formControlName]="i"
+              (blur)="updateErrorAreasInvolucradas()"
+            />
+            @if(formulario.get('areasInvolucradas')?.invalid){
+            <mat-error>{{ areasInvolucradasError() }}</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </section>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="4" [rowspan]="1" class="field-text">
+      <!-- Botón + derecho -->
+      <button type="submit" mat-fab style="width: 70px; height: 40px">
+        <mat-icon>save</mat-icon>
+      </button>
+    </mat-grid-tile>
+  </mat-grid-list>
+</form>
+
+<router-outlet />
+

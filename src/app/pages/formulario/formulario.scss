@@ -1,0 +1,78 @@
+.container-form mat-form-field+mat-form-field {
+  margin-left: 8px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+
+.field-text {
+  color: black;
+  background-color: #F5F5F5;
+}
+
+
+::ng-deep .mat-datepicker-content {
+  background-color: white !important;
+  color: black;
+}
+
+
+
+.container-form {
+  margin-top: 2%;
+  //margin-bottom: 100%;
+  margin-left: 2%;
+  margin-right: 3%;
+  overflow-y: auto;
+}
+
+/*.alinear-select-a-textArea{
+  margin-top: 3.5%;
+}
+
+.alinear-select-areas_involucradas{
+  margin-top: 9%;
+}*/
+
+
+
+/* botón con iconos */
+section {
+  display: flex;
+  align-items: center;
+}
+
+.example-label {
+  font-size: 14px;
+  margin: 0 16px 0 8px;
+  min-width: 120px;
+}
+
+.example-button-row {
+  max-width: 600px;
+}
+
+.example-button-row .mat-mdc-button-base {
+  margin: 8px 8px 8px 0;
+}
+
+.example-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+
+mat-grid-tile {
+  display: flex !important;
+  color: white;
+}
+
+.align-inputs {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
