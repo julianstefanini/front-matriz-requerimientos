@@ -17,6 +17,9 @@
             "polyfills": [
               "zone.js"
             ],
+            "scripts": [
+              "node_modules/flowbite/dist/flowbite.min.js"
+            ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {

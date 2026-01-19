@@ -8,7 +8,7 @@
       />-->
       <img
         class="w-8 h-8 mr-2"
-        src="assets\imagenes\icono-banco.svg"
+        src="assets/imagenes/icono-banco.png"
         alt="logo"
       />
       Banco Agrario
@@ -45,8 +45,9 @@
               matInput
               [formControl]="contraseniaFormControl"
               placeholder="Contraseña"
+              [type]="hide ? 'password' : 'text'"
             />
-
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             @if (usuarioFormControl.hasError('required')) {
             <mat-error>contraseña es <strong>requerido</strong></mat-error>
             }
@@ -55,7 +56,7 @@
             type="submit"
             class="cursor-pointer w-full text-white bg-primary-600 bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
           >
-            Sign in
+            Ingresar
           </button>
         </form>
       </div>

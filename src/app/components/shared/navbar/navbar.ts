@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { Collapse } from 'flowbite';
+import type { CollapseInterface, CollapseOptions } from 'flowbite';
 
 @Component({
   selector: 'app-navbar',
@@ -6,6 +9,17 @@ import { Component } from '@angular/core';
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
 })
-export class Navbar {
+export class Navbar implements AfterViewInit {
+    @ViewChild('menu') menu!: ElementRef<HTMLElement>;
+    @ViewChild('trigger') trigger!: ElementRef<HTMLElement>;
 
+  private collapse!: CollapseInterface;
+
+  ngAfterViewInit(): void {
+
+    this.collapse = new Collapse(
+      this.menu.nativeElement,
+      this.trigger.nativeElement
+    );
+  }
 }

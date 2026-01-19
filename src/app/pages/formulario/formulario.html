@@ -1,3 +1,10 @@
+
+<app-navbar></app-navbar>
+
+<br/>
+<br/>
+<br/>
+
 <form [formGroup]="formulario" (submit)="capturaDatos()">
   <mat-grid-list cols="4" rowHeight="50px" class="container-form">
     <!--Primeras dos filas-->
@@ -565,7 +572,7 @@
           >
             <input
               matInput
-              maxlength="200"
+              maxlength="500"
               [placeholder]="'Escriba área involucrada N° ' + (i + 1)"
               [formControlName]="i"
               (blur)="updateErrorAreasInvolucradas()"

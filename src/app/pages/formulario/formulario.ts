@@ -28,6 +28,7 @@ import { propiedadesGrilla } from '../../interfaces/secciones-propiedades-formul
 import { propiedadesChecksBox } from '../../interfaces/propiedades-check-box';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { TW } from '../../components/shared/tailwindcss/tailwind-breakpoints';
+import { Navbar } from '../../components/shared/navbar/navbar';
 
 @Component({
   selector: 'app-formulario',
@@ -47,6 +48,7 @@ import { TW } from '../../components/shared/tailwindcss/tailwind-breakpoints';
     MatSelectModule,
     CommonModule,
     ReactiveFormsModule,
+    Navbar
   ],
   templateUrl: './formulario.html',
   styleUrl: './formulario.scss',
