@@ -70,7 +70,6 @@ export class Formulario {
   col4! : number;
   colChecksPlan! : number;
   colComoApoya! : number;
-
   //variables de captura de datos
   formulario!: FormGroup;
 
@@ -117,15 +116,15 @@ export class Formulario {
       cargo: ['', Validators.required],
       correo: ['', [Validators.required, Validators.email, agrarioDomainValidator()]],
       vicepresidencia: ['', Validators.required],
-      nombreProceso: ['', Validators.required],
+      proceso: ['', Validators.required],
       personaDelegada: ['', Validators.required],
       cargoPersonaDelegada: ['', Validators.required],
       correoPersonaDelegada: [
         '',
         [Validators.required, Validators.email, agrarioDomainValidator()],
       ],
-      gestorProcesos: ['', Validators.required],
-      correoGestor: ['', [Validators.required, Validators.email, agrarioDomainValidator()]],
+      gestorProceso: ['', Validators.required],
+      gestorCorreo: ['', [Validators.required, Validators.email, agrarioDomainValidator()]],
       origen: ['', Validators.required],
       norma: ['', Validators.required],
       entidad: ['', Validators.required],
@@ -133,53 +132,51 @@ export class Formulario {
       fechaImplementacion: ['', Validators.required],
       necesidad: ['', Validators.required],
       planEstrategicoChecks: this.fb.array([], [ultimoCheckActivo()]),
-
+      colocacion: [0],
+      captacion: [0],
+      comisionables: [0],
+      otrosIngresos: [0],
+      aclaracionOtrosIngresos: ['', Validators.required],
+      eficienciaOperativa: [0],
+      costosOperativos: [0],
+      ahorrosPorMultasPosibles: [0],
+      otroAhorros: [0],
+      aclaracionOtrosAhorro: ['', Validators.required],
       comoApoyaElObjetivo: ['', Validators.required],
-      que: ['', Validators.required],
+      queQuiero: ['', Validators.required],
       paraQue: ['', Validators.required],
-      descripcionBeneficio: [null, Validators.required],
       alineacion: ['', Validators.required],
       cantidadAplicaciones: [[], Validators.required],
       mejoraExperiencia: ['', Validators.required],
-      comoExperiencia: ['', Validators.required],
+      comoMejoraExperiencia: ['', Validators.required],
       areasInvolucradas: this.fb.array([], Validators.required),
     }) as FormGroup;
 
-  /*constructor(private fb: FormBuilder) {
-    this.formulario = this.fb.group({
-      fechaSolicitud: [new Date()],
-      nombresApellidos: ['', Validators.required],
-      cargo: ['', Validators.required],
-      correo: ['', [Validators.required, Validators.email, agrarioDomainValidator()]],
-      vicepresidencia: ['', Validators.required],
-      nombreProceso: ['', Validators.required],
-      personaDelegada: ['', Validators.required],
-      cargoPersonaDelegada: ['', Validators.required],
-      correoPersonaDelegada: [
-        '',
-        [Validators.required, Validators.email, agrarioDomainValidator()],
-      ],
-      gestorProcesos: ['', Validators.required],
-      correoGestor: ['', [Validators.required, Validators.email, agrarioDomainValidator()]],
-      origen: ['', Validators.required],
-      norma: ['', Validators.required],
-      entidad: ['', Validators.required],
-      proyecto: ['', Validators.required],
-      fechaImplementacion: ['', Validators.required],
-      necesidad: ['', Validators.required],
-      //planEstrategicoChecks: this.fb.array([], ultimoCheckActivo),
-      planEstrategicoChecks: this.fb.array([], [ultimoCheckActivo()]),
+    this.formulario.get('otrosIngresos')?.valueChanges.subscribe(value => {
+      let aclaracionOtrosIngresosValue = this.formulario.get('aclaracionOtrosIngresos');
 
-      comoApoyaElObjetivo: ['', Validators.required],
-      que: ['', Validators.required],
-      paraQue: ['', Validators.required],
-      descripcionBeneficio: [null, Validators.required],
-      alineacion: ['', Validators.required],
-      cantidadAplicaciones: [[], Validators.required],
-      mejoraExperiencia: ['', Validators.required],
-      comoExperiencia: ['', Validators.required],
-      areasInvolucradas: this.fb.array([], Validators.required),
-    }) as FormGroup;*/
+      if(value && value > 0){
+        aclaracionOtrosIngresosValue?.enable();
+        aclaracionOtrosIngresosValue?.markAsTouched();
+      }
+      else{
+        aclaracionOtrosIngresosValue?.disable();
+        aclaracionOtrosIngresosValue?.markAsUntouched();
+      }
+    })
+
+    this.formulario.get('otroAhorros')?.valueChanges.subscribe(value => {
+      let aclaracionOtrosAhorroValue = this.formulario.get('aclaracionOtrosAhorro');
+
+      if(value && value > 0){
+        aclaracionOtrosAhorroValue?.enable();
+        aclaracionOtrosAhorroValue?.markAsTouched();
+      }
+      else{
+        aclaracionOtrosAhorroValue?.disable();
+        aclaracionOtrosAhorroValue?.markAsUntouched();
+      }
+    })
 
     merge([
       this.formulario.get('nombresApellidos')?.statusChanges,
@@ -207,8 +204,8 @@ export class Formulario {
       .subscribe(() => this.updateErrorVicepresidencia());
 
     merge([
-      this.formulario.get('nombreProceso')?.statusChanges,
-      this.formulario.get('nombreProceso')?.valueChanges,
+      this.formulario.get('proceso')?.statusChanges,
+      this.formulario.get('proceso')?.valueChanges,
     ])
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorProceso());
@@ -235,15 +232,15 @@ export class Formulario {
       .subscribe(() => this.updateErrorCorreoPersonDelegada());
 
     merge([
-      this.formulario.get('gestorProcesos')?.statusChanges,
-      this.formulario.get('gestorProcesos')?.valueChanges,
+      this.formulario.get('gestorProceso')?.statusChanges,
+      this.formulario.get('gestorProceso')?.valueChanges,
     ])
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorGestorProcesos());
 
     merge([
-      this.formulario.get('correoGestor')?.statusChanges,
-      this.formulario.get('correoGestor')?.valueChanges,
+      this.formulario.get('gestorCorreo')?.statusChanges,
+      this.formulario.get('gestorCorreo')?.valueChanges,
     ])
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorCorreoGestor());
@@ -302,7 +299,7 @@ export class Formulario {
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorComoApoyaElObjetivo());
 
-    merge([this.formulario.get('que')?.statusChanges, this.formulario.get('que')?.valueChanges])
+    merge([this.formulario.get('queQuiero')?.statusChanges, this.formulario.get('queQuiero')?.valueChanges])
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorQue());
 
@@ -312,14 +309,6 @@ export class Formulario {
     ])
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorParaQue());
-
-    /* descripcionBeneficio
-    merge([
-      this.formulario.get('paraQue')?.statusChanges,
-      this.formulario.get('paraQue')?.valueChanges,
-    ])
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => this.updateErrorParaQue()); */
 
     merge([
       this.formulario.get('alineacion')?.statusChanges,
@@ -343,8 +332,8 @@ export class Formulario {
       .subscribe(() => this.updateErrorMejoraExperiencia());
 
     merge([
-      this.formulario.get('comoExperiencia')?.statusChanges,
-      this.formulario.get('comoExperiencia')?.valueChanges,
+      this.formulario.get('comoMejoraExperiencia')?.statusChanges,
+      this.formulario.get('comoMejoraExperiencia')?.valueChanges,
     ])
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorComoExperiencia());
@@ -355,6 +344,20 @@ export class Formulario {
     ])
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorAreasInvolucradas());
+
+    merge([
+      this.formulario.get('aclaracionOtrosIngresos')?.statusChanges,
+      this.formulario.get('aclaracionOtrosIngresos')?.valueChanges,
+    ])
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.updateErrorAclaracionOtrosIngresos());
+
+    merge([
+      this.formulario.get('aclaracionOtrosAhorro')?.statusChanges,
+      this.formulario.get('aclaracionOtrosAhorro')?.valueChanges,
+    ])
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.updateErrorAclaracionOtrosAhorro());
   }
 
   ngOnInit(): void {
@@ -363,7 +366,10 @@ export class Formulario {
     this.formulario.get('entidad')?.disable();
     this.formulario.get('proyecto')?.disable();
     this.formulario.get('comoAlineacion')?.disable();
-    this.formulario.get('comoExperiencia')?.disable();
+    this.formulario.get('comoMejoraExperiencia')?.disable();
+    this.formulario.get('ahorrosPorMultasPosibles')?.disable();
+    this.formulario.get('aclaracionOtrosIngresos')?.disable();
+    this.formulario.get('aclaracionOtrosAhorro')?.disable();
   }
 
   //signals para cambiar el estado de un valor de las cajas de texto
@@ -382,8 +388,9 @@ export class Formulario {
   valorTextoObjetivo = signal('');
   valorQueQuieroTexto = signal('');
   valorParaQueTexto = signal('');
-  valorDescripcionBeneficio = signal('');
   valorComoMejora = signal('');
+  valorAclaracionOtrosIngresos = signal('');
+  valorAclaracionOtrosAhorro = signal('');
 
   //signals, para errores:
   nombresApellidosError = signal('');
@@ -406,12 +413,13 @@ export class Formulario {
   comoApoyaElObjetivoError = signal('');
   queError = signal('');
   paraQueError = signal('');
-  descripcionBeneficioError = signal('');
   alineacionError = signal('');
   cantidadAplicacionesError = signal('');
   mejoraExperienciaError = signal('');
   comoExperienciaError = signal('');
   areasInvolucradasError = signal('');
+  aclaracionOtrosIngresosError = signal('');
+  aclaracionOtrosAhorroError = signal('');
 
   //funciones errores para actualizar las señales
   updateErrorNombresApellidos() {
@@ -445,7 +453,7 @@ export class Formulario {
   }
 
   updateErrorProceso() {
-    if (this.formulario.get('nombreProceso')?.hasError('required')) {
+    if (this.formulario.get('proceso')?.hasError('required')) {
       this.procesoError.set(this.listaMensajeError[0].toString());
     }
   }
@@ -474,17 +482,17 @@ export class Formulario {
   }
 
   updateErrorGestorProcesos() {
-    if (this.formulario.get('gestorProcesos')?.hasError('required')) {
+    if (this.formulario.get('gestorProceso')?.hasError('required')) {
       this.gestorProcesosError.set(this.listaMensajeError[0].toString());
     }
   }
 
   updateErrorCorreoGestor() {
-    if (this.formulario.get('correoGestor')?.hasError('required')) {
+    if (this.formulario.get('gestorCorreo')?.hasError('required')) {
       this.correoGestorError.set(this.listaMensajeError[0].toString());
-    } else if (this.formulario.get('correoGestor')?.hasError('email')) {
+    } else if (this.formulario.get('gestorCorreo')?.hasError('email')) {
       this.correoGestorError.set(this.listaMensajeError[1].toString());
-    } else if (this.formulario.get('correoGestor')?.hasError('invalidDomain')) {
+    } else if (this.formulario.get('gestorCorreo')?.hasError('invalidDomain')) {
       const badDomain = this.emailDomainGestor;
       this.correoGestorError.set(`${this.listaMensajeError[2].toString()}@${badDomain}`);
     }
@@ -542,7 +550,7 @@ export class Formulario {
   }
 
   updateErrorQue() {
-    if (this.formulario.get('que')?.hasError('required')) {
+    if (this.formulario.get('queQuiero')?.hasError('required')) {
       this.queError.set(this.listaMensajeError[0].toString());
     }
   }
@@ -550,12 +558,6 @@ export class Formulario {
   updateErrorParaQue() {
     if (this.formulario.get('paraQue')?.hasError('required')) {
       this.paraQueError.set(this.listaMensajeError[0].toString());
-    }
-  }
-
-  updateErrorDescripcionBeneficio() {
-    if (this.formulario.get('descripcionBeneficio')?.hasError('required')) {
-      this.descripcionBeneficioError.set(this.listaMensajeError[0].toString());
     }
   }
 
@@ -578,7 +580,7 @@ export class Formulario {
   }
 
   updateErrorComoExperiencia() {
-    if (this.formulario.get('comoExperiencia')?.hasError('required')) {
+    if (this.formulario.get('comoMejoraExperiencia')?.hasError('required')) {
       this.comoExperienciaError.set(this.listaMensajeError[0].toString());
     }
   }
@@ -586,6 +588,18 @@ export class Formulario {
   updateErrorAreasInvolucradas() {
     if (this.formulario.get('areasInvolucradas')?.hasError('required')) {
       this.areasInvolucradasError.set(this.listaMensajeError[0].toString());
+    }
+  }
+
+  updateErrorAclaracionOtrosIngresos() {
+    if (this.formulario.get('aclaracionOtrosIngresos')?.hasError('required')) {
+      this.aclaracionOtrosIngresosError.set(this.listaMensajeError[0].toString());
+    }
+  }
+
+  updateErrorAclaracionOtrosAhorro() {
+    if (this.formulario.get('aclaracionOtrosAhorro')?.hasError('required')) {
+      this.aclaracionOtrosAhorroError.set(this.listaMensajeError[0].toString());
     }
   }
 
@@ -601,6 +615,31 @@ export class Formulario {
     return indexDomain !== -1 ? emailValue.substring(indexDomain + 1) : '';
   }
 
+  get totalIngresos(): number{
+    let colocacionValue = this.formulario.get('colocacion')?.value ?? 0;
+    let captacionValue = this.formulario.get('captacion')?.value ?? 0;
+    let comisionablesValue = this.formulario.get('comisionables')?.value ?? 0;
+    let otrosIngresosValue = this.formulario.get('otrosIngresos')?.value ?? 0;
+
+    return colocacionValue + captacionValue + comisionablesValue + otrosIngresosValue;
+  }
+
+  get totalAhorros():number{
+    let eficienciaOperativaValue = this.formulario.get('eficienciaOperativa')?.value ?? 0;
+    let costosOperativosValue = this.formulario.get('costosOperativos')?.value ?? 0;
+    let otrosAhorrosValue = this.formulario.get('otroAhorros')?.value ?? 0;
+
+    return eficienciaOperativaValue + costosOperativosValue + otrosAhorrosValue;
+  }
+
+  get totalBeneficios():number{
+    let totalIngresosValue = this.totalIngresos;
+    let totalAhorrosValue = this.totalAhorros;
+    let ahorrosPorMultasPosiblesValue = this.formulario.get('ahorrosPorMultasPosibles')?.value ?? 0;
+
+    return totalIngresosValue + totalAhorrosValue + ahorrosPorMultasPosiblesValue
+  }
+
   get emailDomainPersonaDelegada(): string {
     const emailValue = this.formulario.get('correoPersonaDelegada')?.value;
     const indexDomain = emailValue.indexOf('@');
@@ -608,14 +647,14 @@ export class Formulario {
   }
 
   get emailDomainGestor(): string {
-    const emailValue = this.formulario.get('correoGestor')?.value;
+    const emailValue = this.formulario.get('gestorCorreo')?.value;
     const indexDomain = emailValue.indexOf('@');
     return indexDomain !== -1 ? emailValue.substring(indexDomain + 1) : '';
   }
 
   habilitarCamposOrigen(valorSeleccionado: string): void {
     if (valorSeleccionado === 'proyectos') {
-      console.log(valorSeleccionado);
+
       this.formulario.get('proyecto')?.enable();
       this.formulario.get('proyecto')?.markAsTouched();
 
@@ -627,6 +666,10 @@ export class Formulario {
 
       this.formulario.get('fechaImplementacion')?.markAsUntouched();
       this.formulario.get('fechaImplementacion')?.disable();
+
+      this.formulario.get('ahorrosPorMultasPosibles')?.markAsUntouched();
+      this.formulario.get('ahorrosPorMultasPosibles')?.disable();
+
     } else if (valorSeleccionado === 'regulatorios') {
       this.formulario.get('proyecto')?.markAsUntouched();
       this.formulario.get('proyecto')?.disable();
@@ -639,6 +682,10 @@ export class Formulario {
 
       this.formulario.get('fechaImplementacion')?.enable();
       this.formulario.get('fechaImplementacion')?.markAsTouched();
+
+      this.formulario.get('ahorrosPorMultasPosibles')?.enable();
+      this.formulario.get('ahorrosPorMultasPosibles')?.markAsTouched();
+
     } else {
       this.formulario.get('proyecto')?.disable();
       this.formulario.get('proyecto')?.markAsUntouched();
@@ -651,16 +698,19 @@ export class Formulario {
 
       this.formulario.get('fechaImplementacion')?.disable();
       this.formulario.get('fechaImplementacion')?.markAsUntouched();
+
+      this.formulario.get('ahorrosPorMultasPosibles')?.disable();
+      this.formulario.get('ahorrosPorMultasPosibles')?.markAsUntouched();
     }
   }
 
   habilitarCampoComo(valorSeleccionado: string): void {
     if (valorSeleccionado === 'si') {
-      this.formulario.get('comoExperiencia')?.enable();
-      this.formulario.get('comoExperiencia')?.markAsTouched();
+      this.formulario.get('comoMejoraExperiencia')?.enable();
+      this.formulario.get('comoMejoraExperiencia')?.markAsTouched();
     } else {
-      this.formulario.get('comoExperiencia')?.disable();
-      this.formulario.get('comoExperiencia')?.markAsUntouched();
+      this.formulario.get('comoMejoraExperiencia')?.disable();
+      this.formulario.get('comoMejoraExperiencia')?.markAsUntouched();
     }
   }
 
@@ -687,9 +737,27 @@ export class Formulario {
     { texto: 'BENEFICIOS PARA LA ORGANIZACIÓN', columnas: 4, filas: 1, color: '#A6C9EC' },
   ];
 
+  propiedadesAnalisisBeneficio: propiedadesGrilla[] = [
+    { texto: 'ANÁLISIS DEL BENEFICIO', columnas: 4, filas: 1, color: '#A6C9EC' },
+  ];
+
+
+  propiedadesIngresoBeneficio: propiedadesGrilla[] = [
+    { texto: 'INGRESOS', columnas: 3, filas: 1, color: '#718EA6' },
+  ];
+
+  propiedadesAhorroBeneficio: propiedadesGrilla[] = [
+    { texto: 'AHORROS', columnas: 3, filas: 1, color: '#718EA6' },
+  ];
+
+  totalBeneficio: propiedadesGrilla[] = [
+    { texto: 'TOTAL BENEFICIO', columnas: 3, filas: 1, color: '#718EA6' },
+  ];
+
   propiedadesDieciSeisavaFila: propiedadesGrilla[] = [
     { texto: 'ÁREAS INVOLUCRADAS O IMPACTADAS', columnas: 4, filas: 1, color: '#A6C9EC' },
   ];
+
 
   //Propiedades checkBox
   propiedadesCheckBox: propiedadesChecksBox[] = [
@@ -758,16 +826,20 @@ export class Formulario {
     this.valorParaQueTexto.set((event.target as HTMLInputElement).value);
   }
 
-  protected onInputDescricionBeneficio(event: Event) {
-    this.valorDescripcionBeneficio.set((event.target as HTMLInputElement).value);
-  }
-
   protected onInputComoMejora(event: Event) {
     this.valorComoMejora.set((event.target as HTMLInputElement).value);
   }
 
   protected onInputNorma(event: Event) {
     this.valorNorma.set((event.target as HTMLInputElement).value);
+  }
+
+  protected onInputAclaracionOtrosIngresos(event: Event) {
+    this.valorAclaracionOtrosIngresos.set((event.target as HTMLInputElement).value);
+  }
+
+  protected onInputaclaracionOtrosAhorro(event: Event) {
+    this.valorAclaracionOtrosAhorro.set((event.target as HTMLInputElement).value);
   }
 
   protected addInput() {

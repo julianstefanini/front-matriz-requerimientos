@@ -76,3 +76,18 @@ mat-grid-tile {
   display: flex;
   flex-direction: column;
 }
+
+
+.tile-custom {
+  background-color: #718EA6;
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.tile-custom .tile-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}

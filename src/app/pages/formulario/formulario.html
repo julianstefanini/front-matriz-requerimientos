@@ -104,7 +104,7 @@
       <mat-form-field style="width: 100%">
         <mat-label>Nombre del Proceso o Subproceso</mat-label>
         <input
-          formControlName="nombreProceso"
+          formControlName="proceso"
           matInput
           maxlength="60"
           placeholder=""
@@ -112,7 +112,7 @@
           (blur)="updateErrorProceso()"
         />
         <mat-hint align="end">{{ valorProceso().length }}/60</mat-hint>
-        @if(formulario.get('nombreProceso')?.invalid){
+        @if(formulario.get('proceso')?.invalid){
         <mat-error>{{ procesoError() }}</mat-error>
         }
       </mat-form-field>
@@ -178,7 +178,7 @@
       <mat-form-field style="width: 100%" hintLabel="Máximo 60 caracteres">
         <mat-label>Gestor de Procesos</mat-label>
         <input
-          formControlName="gestorProcesos"
+          formControlName="gestorProceso"
           matInput
           maxlength="60"
           placeholder=""
@@ -186,7 +186,7 @@
           (blur)="updateErrorGestorProcesos()"
         />
         <mat-hint align="end">{{ valorGestorProcesos().length }}/60</mat-hint>
-        @if(formulario.get('gestorProcesos')?.invalid){
+        @if(formulario.get('gestorProceso')?.invalid){
         <mat-error>{{ gestorProcesosError() }}</mat-error>
         }
       </mat-form-field>
@@ -196,7 +196,7 @@
       <mat-form-field style="width: 100%" hintLabel="Máximo 60 caracteres">
         <mat-label>Correo electrónico</mat-label>
         <input
-          formControlName="correoGestor"
+          formControlName="gestorCorreo"
           matInput
           maxlength="60"
           placeholder=""
@@ -204,7 +204,7 @@
           (blur)="updateErrorCorreoGestor()"
         />
         <mat-hint align="end">{{ valorGestorCorreo().length }}/60</mat-hint>
-        @if(formulario.get('correoPersonaDelegada')?.invalid){
+        @if(formulario.get('gestorCorreo')?.invalid){
         <mat-error>{{ correoGestorError() }}</mat-error>
         }
       </mat-form-field>
@@ -374,7 +374,7 @@
       <mat-form-field style="width: 100%" hintLabel="Máximo 500 caracteres">
         <mat-label>Qué quiero (Explique su idea sobre la necesidad planteada)</mat-label>
         <textarea
-          formControlName="que"
+          formControlName="queQuiero"
           matInput
           maxlength="500"
           placeholder=""
@@ -382,7 +382,7 @@
           (blur)="updateErrorQue()"
         ></textarea>
         <mat-hint align="end">{{ valorQueQuieroTexto().length }}/500</mat-hint>
-        @if(formulario.get('que')?.invalid){
+        @if(formulario.get('queQuiero')?.invalid){
         <mat-error>{{ queError() }}</mat-error>
         }
       </mat-form-field>
@@ -416,21 +416,6 @@
     </mat-grid-tile>
 
     <!--Deciseisava fila-->
-    <mat-grid-tile [colspan]="col2" [rowspan]="2" class="field-text">
-      <mat-form-field style="width: 100%; height: 100%">
-        <mat-label>Beneficio económico</mat-label>
-        <input
-          formControlName="descripcionBeneficio"
-          matInput
-          type="number"
-          (input)="onInputDescricionBeneficio($event)"
-          (blur)="updateErrorDescripcionBeneficio()"
-        />
-        @if(formulario.get('descripcionBeneficio')?.invalid){
-        <mat-error>{{ descripcionBeneficioError() }}</mat-error>
-        }
-      </mat-form-field>
-    </mat-grid-tile>
 
     <mat-grid-tile [colspan]="col1" [rowspan]="2" class="field-text">
       <mat-form-field style="width: 100%" class="align-inputs">
@@ -449,7 +434,7 @@
       </mat-form-field>
     </mat-grid-tile>
 
-    <mat-grid-tile [colspan]="col1" [rowspan]="2" class="field-text">
+    <mat-grid-tile [colspan]="col2" [rowspan]="2" class="field-text">
       <mat-form-field style="width: 100%" class="align-inputs">
         <mat-label>Cantidad aplicaciones afectadas</mat-label>
         <mat-select
@@ -496,11 +481,11 @@
       </mat-form-field>
     </mat-grid-tile>
 
-    <mat-grid-tile [colspan]="col3" [rowspan]="2" class="field-text">
+    <mat-grid-tile [colspan]="col4" [rowspan]="2" class="field-text">
       <mat-form-field style="width: 100%" hintLabel="Máximo 500 caracteres" class="align-inputs">
         <mat-label>Cómo</mat-label>
         <textarea
-          formControlName="comoExperiencia"
+          formControlName="comoMejoraExperiencia"
           matInput
           maxlength="500"
           placeholder=""
@@ -508,10 +493,181 @@
           (blur)="updateErrorComoExperiencia()"
         ></textarea>
         <mat-hint align="end">{{ valorComoMejora().length }}/500</mat-hint>
-        @if(formulario.get('comoExperiencia')?.invalid){
+        @if(formulario.get('comoMejoraExperiencia')?.invalid){
         <mat-error>{{ comoExperienciaError() }}</mat-error>
         }
       </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile
+      [colspan]="propiedadesAnalisisBeneficio.at(0)?.columnas"
+      [rowspan]="propiedadesAnalisisBeneficio.at(0)?.filas"
+      [style.background]="propiedadesAnalisisBeneficio.at(0)?.color"
+      >{{ propiedadesAnalisisBeneficio.at(0)?.texto }}
+    </mat-grid-tile>
+
+    <mat-grid-tile
+      [colspan]="propiedadesIngresoBeneficio.at(0)?.columnas"
+      [rowspan]="propiedadesIngresoBeneficio.at(0)?.filas"
+      [style.background]="propiedadesIngresoBeneficio.at(0)?.color"
+      >{{ propiedadesIngresoBeneficio.at(0)?.texto }}
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col1" [rowspan]="1" class="tile-custom">
+      <span class="tile-label">
+        $ {{ totalIngresos }}
+      </span>
+    </mat-grid-tile>
+
+
+     <mat-grid-tile [colspan]="col1" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%">
+        <mat-label>Colocación</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="colocacion"
+        />
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col1" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%">
+        <mat-label>Captación</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="captacion"
+        />
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col1" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%">
+        <mat-label>Comisionables</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="comisionables"
+        />
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col1" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%">
+        <mat-label>Otros</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="otrosIngresos"
+        />
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col4" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%" hintLabel="Máximo 500 caracteres" class="align-inputs">
+        <mat-label>Aclaración del riesgo</mat-label>
+        <textarea
+          formControlName="aclaracionOtrosIngresos"
+          matInput
+          maxlength="500"
+          placeholder=""
+          (input)="onInputAclaracionOtrosIngresos($event)"
+          (blur)="updateErrorAclaracionOtrosIngresos()"
+        ></textarea>
+        <mat-hint align="end">{{ valorAclaracionOtrosIngresos().length }}/500</mat-hint>
+        @if(formulario.get('aclaracionOtrosIngresos')?.invalid){
+        <mat-error>{{ aclaracionOtrosIngresosError() }}</mat-error>
+        }
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile
+      [colspan]="propiedadesAhorroBeneficio.at(0)?.columnas"
+      [rowspan]="propiedadesAhorroBeneficio.at(0)?.filas"
+      [style.background]="propiedadesAhorroBeneficio.at(0)?.color"
+      >{{ propiedadesAhorroBeneficio.at(0)?.texto }}
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col1" [rowspan]="1" class="tile-custom">
+      <span class="tile-label">
+        $ {{ totalAhorros }}
+      </span>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col1" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%">
+        <mat-label>Eficiencia Operativa</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="eficienciaOperativa"
+        />
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col1" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%">
+        <mat-label>Costos Operativos</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="costosOperativos"
+        />
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col1" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%">
+        <mat-label>Ahorros por evitar posibles multas</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="ahorrosPorMultasPosibles"
+        />
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col1" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%">
+        <mat-label>Otros</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="otroAhorros"
+        />
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col4" [rowspan]="2" class="field-text">
+      <mat-form-field style="width: 100%" hintLabel="Máximo 500 caracteres" class="align-inputs">
+        <mat-label>Aclaración del riesgo</mat-label>
+        <textarea
+          formControlName="aclaracionOtrosAhorro"
+          matInput
+          maxlength="500"
+          placeholder=""
+          (input)="onInputaclaracionOtrosAhorro($event)"
+          (blur)="updateErrorAclaracionOtrosAhorro()"
+        ></textarea>
+        <mat-hint align="end">{{ valorAclaracionOtrosAhorro().length }}/500</mat-hint>
+        @if(formulario.get('aclaracionOtrosAhorro')?.invalid){
+        <mat-error>{{ aclaracionOtrosAhorroError() }}</mat-error>
+        }
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile
+      [colspan]="totalBeneficio.at(0)?.columnas"
+      [rowspan]="totalBeneficio.at(0)?.filas"
+      [style.background]="totalBeneficio.at(0)?.color"
+      >{{ totalBeneficio.at(0)?.texto }}
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="col1" [rowspan]="1" class="tile-custom">
+      <span class="tile-label">
+        $ {{ totalBeneficios }}
+      </span>
     </mat-grid-tile>
 
     <!--Diecioachoava fila-->
