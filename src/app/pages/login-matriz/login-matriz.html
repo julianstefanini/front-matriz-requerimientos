@@ -22,18 +22,18 @@
         >
           Ingrese su cuenta
         </h1>
-        <form class="space-y-4 md:space-y-6" action="#">
+        <form [formGroup]="loginForm" (ngSubmit)="login()" class="space-y-4 md:space-y-6" action="#">
 
           <mat-form-field class="example-full-width">
             <mat-label>Usuario</mat-label>
             <input
               type="text"
               matInput
-              [formControl]="usuarioFormControl"
+              formControlName="usuarioFormControl"
               placeholder="Usuario dominio banco"
             />
 
-            @if (usuarioFormControl.hasError('required')) {
+            @if (loginForm.get('usuarioFormControl')?.invalid) {
             <mat-error>usuario es <strong>requerido</strong></mat-error>
             }
           </mat-form-field>
@@ -43,12 +43,12 @@
             <input
               type="password"
               matInput
-              [formControl]="contraseniaFormControl"
+              formControlName="contraseniaFormControl"
               placeholder="Contraseña"
               [type]="hide ? 'password' : 'text'"
             />
             <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-            @if (usuarioFormControl.hasError('required')) {
+            @if (loginForm.get('contraseniaFormControl')?.invalid) {
             <mat-error>contraseña es <strong>requerido</strong></mat-error>
             }
           </mat-form-field>
