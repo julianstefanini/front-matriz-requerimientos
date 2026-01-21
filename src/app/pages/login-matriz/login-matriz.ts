@@ -16,15 +16,17 @@ export class LoginMatriz {
   hide = true;
 
   loginForm = new FormGroup({
-    usuarioFormControl : new FormControl<string>('', {validators: Validators.required, nonNullable: true}),
-    contraseniaFormControl : new FormControl<string>('', {validators: Validators.required, nonNullable: true})
+    usuario : new FormControl<string>('', {validators: Validators.required, nonNullable: true}),
+    password : new FormControl<string>('', {validators: Validators.required, nonNullable: true})
   });
 
   constructor(private authService: AuthService, private rout: Router){}
 
   login(){
+    console.log(this.loginForm.controls.usuario.value);
+    console.log(this.loginForm.controls.password.value);
 
-    this.authService.login(this.loginForm.controls.usuarioFormControl.value, this.loginForm.controls.contraseniaFormControl.value)
+    this.authService.login(this.loginForm.controls.usuario.value, this.loginForm.controls.password.value)
     .subscribe({
       next : () =>{
         console.log('Acceso permitido');

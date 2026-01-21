@@ -29,11 +29,11 @@
             <input
               type="text"
               matInput
-              formControlName="usuarioFormControl"
+              formControlName="usuario"
               placeholder="Usuario dominio banco"
             />
 
-            @if (loginForm.get('usuarioFormControl')?.invalid) {
+            @if (loginForm.get('usuario')?.invalid) {
             <mat-error>usuario es <strong>requerido</strong></mat-error>
             }
           </mat-form-field>
@@ -43,12 +43,12 @@
             <input
               type="password"
               matInput
-              formControlName="contraseniaFormControl"
+              formControlName="password"
               placeholder="Contraseña"
               [type]="hide ? 'password' : 'text'"
             />
             <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-            @if (loginForm.get('contraseniaFormControl')?.invalid) {
+            @if (loginForm.get('password')?.invalid) {
             <mat-error>contraseña es <strong>requerido</strong></mat-error>
             }
           </mat-form-field>

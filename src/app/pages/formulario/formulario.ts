@@ -140,7 +140,7 @@ export class Formulario {
       eficienciaOperativa: [0],
       costosOperativos: [0],
       ahorrosPorMultasPosibles: [0],
-      otroAhorros: [0],
+      otrosAhorros: [0],
       aclaracionOtrosAhorro: ['', Validators.required],
       comoApoyaElObjetivo: ['', Validators.required],
       queQuiero: ['', Validators.required],
@@ -165,7 +165,7 @@ export class Formulario {
       }
     })
 
-    this.formulario.get('otroAhorros')?.valueChanges.subscribe(value => {
+    this.formulario.get('otrosAhorros')?.valueChanges.subscribe(value => {
       let aclaracionOtrosAhorroValue = this.formulario.get('aclaracionOtrosAhorro');
 
       if(value && value > 0){
@@ -627,7 +627,7 @@ export class Formulario {
   get totalAhorros():number{
     let eficienciaOperativaValue = this.formulario.get('eficienciaOperativa')?.value ?? 0;
     let costosOperativosValue = this.formulario.get('costosOperativos')?.value ?? 0;
-    let otrosAhorrosValue = this.formulario.get('otroAhorros')?.value ?? 0;
+    let otrosAhorrosValue = this.formulario.get('otrosAhorros')?.value ?? 0;
 
     return eficienciaOperativaValue + costosOperativosValue + otrosAhorrosValue;
   }
@@ -856,40 +856,33 @@ export class Formulario {
     return index;
   }
 
+  /*private validarAnalisisBeneficio(){
+    let camposAnalisisBeneficio : Array<String> = ['captacion', 'comisionables', 'otrosIngresos', 'eficienciaOperativa',
+      'costosOperativos', 'ahorrosPorMultasPosibles', 'otrosAhorros'];
+
+    let valorDiferenteDeCero = false;
+    camposAnalisisBeneficio.forEach((elemento) => {
+      if( this.formulario.get(elemento)?.value == 0 || this.formulario.get('colocacion')?.value < 0 ){
+
+      }
+    });
+  }*/
+
   //Captura datos
   protected capturaDatos() {
 
-    /* console.log(`nombresApellidos: ${this.formulario.get('nombresApellidos')?.valid}`);
-    console.log(`cargo: ${this.formulario.get('cargo')?.valid}`);
-    console.log(`correo: ${this.formulario.get('correo')?.valid}`);
-    console.log(`vicepresidencia: ${this.formulario.get('vicepresidencia')?.valid}`);
-    console.log(`nombreProceso: ${this.formulario.get('nombreProceso')?.valid}`);
-    console.log(`personaDelegada: ${this.formulario.get('personaDelegada')?.valid}`);
-    console.log(`cargoPersonaDelegada: ${this.formulario.get('cargoPersonaDelegada')?.valid}`);
-    console.log(`correoPersonaDelegada: ${this.formulario.get('correoPersonaDelegada')?.valid}`);
-    console.log(`gestorProcesos: ${this.formulario.get('gestorProcesos')?.valid}`);
-    console.log(`correoGestor: ${this.formulario.get('correoGestor')?.valid}`);
-    console.log(`origen: ${this.formulario.get('origen')?.valid}`);
-    console.log(`norma: ${this.formulario.get('norma')?.valid}`);
-    console.log(`entidad: ${this.formulario.get('entidad')?.valid}`);
-    console.log(`proyecto: ${this.formulario.get('proyecto')?.valid}`);
-    console.log(`fechaImplementacion: ${this.formulario.get('fechaImplementacion')?.valid}`);
-    console.log(`necesidad: ${this.formulario.get('necesidad')?.valid}`); */
-    //console.log(`planEstrategicoChecks: ${this.formulario.get('planEstrategicoChecks')?.valid}`);
-    /* console.log(`comoApoyaElObjetivo: ${this.formulario.get('comoApoyaElObjetivo')?.valid}`);
-    console.log(`que: ${this.formulario.get('que')?.valid}`);
-    console.log(`paraQue: ${this.formulario.get('paraQue')?.valid}`);
-    console.log(`descripcionBeneficio: ${this.formulario.get('descripcionBeneficio')?.valid}`);
-    console.log(`alineacion: ${this.formulario.get('alineacion')?.valid}`);
-    console.log(`cantidadAplicaciones: ${this.formulario.get('cantidadAplicaciones')?.valid}`);
-    console.log(`mejoraExperiencia: ${this.formulario.get('mejoraExperiencia')?.valid}`);
-    console.log(`comoExperiencia: ${this.formulario.get('comoExperiencia')?.valid}`);
-    console.log(`areasInvolucradas: ${this.formulario.get('areasInvolucradas')?.valid}`); */
+    //Validar que en la sección ANÁLISIS DEL BENEFICIO, hayan ingresado al menos un valor
+    let analisisBeneficio = this.formulario.get('colocacion')?.value == 0 || this.formulario.get('colocacion')?.value < 0 ||
+    this.formulario.get('captacion')?.value == 0;
 
      this.formulario.markAllAsTouched();
 
     if (this.areasInvolucradas.length == 0) {
       this.addInput();
+    }
+
+    if(analisisBeneficio){
+      alert("En la sección ANÁLISIS DEL BENEFICIO, debe existir al menos un valor mayor a cero y no debe existir valor menores a cero");
     }
 
     if (this.formulario.valid) {
@@ -930,11 +923,12 @@ export class Formulario {
         totalUmbral += 2;
       }
 
-      localStorage.setItem('usuario', JSON.stringify(this.formulario.value));
+      //localStorage.setItem('usuario', JSON.stringify(this.formulario.value));
       console.log(`El total del umbral es: ${totalUmbral}`);
     }
     else{
-      console.log('no ingresa');
+      alert("No puede ingresar");
+      //console.log('no ingresa');
     }
   }
 
